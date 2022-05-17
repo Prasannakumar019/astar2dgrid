@@ -4,7 +4,6 @@
 To develop a code to find the route from the source to the destination point using A* algorithm for 2D grid world.
 
 ## THEORY
-Explain the problem statement
 
 ## DESIGN STEPS
 
