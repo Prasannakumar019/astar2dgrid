@@ -31,8 +31,6 @@ The algorithm finds the best optimal solution.
 
 ## PROGRAM
 ```python
-    Developed by: Prasannakumar M
-    Register No:212220230035 
 %matplotlib inline
 import matplotlib.pyplot as plt
 import random
@@ -42,8 +40,6 @@ from collections import defaultdict, deque, Counter
 from itertools import combinations
 import heapq
 
-Problems
-This is the abstract class. Specific problem domains will subclass this.
 class Problem(object):
     """The abstract class for a formal problem. A new domain subclasses this,
     overriding `actions` and `results`, and perhaps other methods.
@@ -66,9 +62,7 @@ class Problem(object):
     def __str__(self):
         return '{0}({1}, {2})'.format(
             type(self).__name__, self.initial, self.goal)
-
-Nodes
-This is the Node in the search tree. Helper functions (expand, path_actions, path_states) use this Node class
+            
 class Node:
     "A Node in a search tree."
     def __init__(self, state, parent=None, action=None, path_cost=0):
@@ -83,7 +77,6 @@ class Node:
 failure = Node('failure', path_cost=math.inf) # Indicates an algorithm couldn't find a solution.
 cutoff  = Node('cutoff',  path_cost=math.inf) # Indicates iterative deepening search was cut off.
 
-Helper functions
 def expand(problem, node):
     "Expand a node, generating the children nodes."
     s = node.state
@@ -105,8 +98,7 @@ def path_states(node):
     if node in (cutoff, failure, None): 
         return []
     return path_states(node.parent) + [node.state]
-
-Search Algorithm : Best First Search
+    
 class PriorityQueue:
     """A queue in which the item with minimum f(item) is always popped first."""
 
@@ -147,11 +139,10 @@ def best_first_search(problem, f):
 def g(n): 
     return n.path_cost
 
-2D Grid Pathfinding Problem
 class GridProblem(Problem):
     """Finding a path on a 2D grid with obstacles. Obstacles are (x, y) cells."""
 
-    def __init__(self, initial=(5, 10), goal=(5, 3), obstacles=(), **kwds):
+    def __init__(self, initial=(15, 30), goal=(130, 30), obstacles=(), **kwds):
         Problem.__init__(self, initial=initial, goal=goal, 
                          obstacles=set(obstacles) - {initial, goal}, **kwds)
 
@@ -170,10 +161,11 @@ class GridProblem(Problem):
         return action if action not in self.obstacles else state
     
     def actions(self, state):
-        """You can move one cell in any of `directions` to a non-obstacle cell."""
-        
-        x, y = state
-        return {(x + dx, y +dy) for (dx, dy) in self.directions} - self.obstacles
+         """You can move one cell in any of `directions` to a non-obstacle cell."""
+         x, y = state
+         return {(x + dx, y + dy) for (dx, dy) in self.directions} - self.obstacles
+    
+   
 def straight_line_distance(A, B):
     "Straight-line distance between two points."
     return sum(abs(a - b)**2 for (a, b) in zip(A, B)) ** 0.5
@@ -183,8 +175,8 @@ def astar_search(problem, h=None):
     """Search nodes with minimum f(n) = g(n) + h(n)."""
     h = h or problem.h
     return best_first_search(problem, f=lambda n: g(n) + h(n))
-obstacles=({(1,1),(1,5),(1,7),(2,3),(2,8),(3,1),(3,3),(3,5),(4,4)})
-grid1 = GridProblem(initial=(1,2), goal =(3,10) ,obstacles=obstacles)
+obstacle={(3,1),(5,1),(6,1),(1,2),(4,2),(5,2),(2,3),(5,3),(7,3),(8,3),(1,4),(3,5),(6,5),(4,5),(2,6),(7,6),(8,6),(1,7),(2,7),(3,7),(5,7),(8,7),(1,8),(3,8),(4,8)}
+grid1 = GridProblem(initial=(2,2), goal =(5,8) ,obstacles=obstacle)
 solution1 = astar_search(grid1)
 path_states(solution1)
 ```
